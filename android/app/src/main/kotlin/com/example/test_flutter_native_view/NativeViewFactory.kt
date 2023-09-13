@@ -11,7 +11,6 @@ class NativeViewFactory(
     StandardMessageCodec.INSTANCE
 ) {
     override fun create(context: Context?, viewId: Int, args: Any?): PlatformView {
-        Log.d("ddLogGoogleMap", "NativeViewFactory.kt create: ")
         return TestNativeView(context)
 
     }

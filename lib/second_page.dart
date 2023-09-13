@@ -27,14 +27,39 @@ class _SecondPageState extends State<SecondPage> {
         appBar: AppBar(
           title: const Text("Test native view"),
         ),
-        body: Center(
+        body: Container(
+          decoration: const BoxDecoration(
+            color: Colors.green
+          ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const Text(
-                'You have pushed the button this many times:',
+                'Hello world',
               ),
-              _getMapView(),
+              Container(
+                height: 300,
+                decoration: const BoxDecoration(
+                    color: Colors.yellow
+                ),
+                child: _getNativeView(),
+              ),
+
+              Container(
+                height: 300,
+                decoration: const BoxDecoration(
+                    color: Colors.blue
+                ),
+                child: _getNativeView2(),
+              ),
+              const Text(
+                'Hello world',
+              ),
+              const Text(
+                'Hello world',
+              ),
+              const Text(
+                'Hello world',
+              ),
             ],
           ),
         ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -42,42 +67,14 @@ class _SecondPageState extends State<SecondPage> {
     );
   }
 
-  Widget _getMapView() {
-    debugPrint('ddLogGoogleMap build');
+  Widget _getNativeView() {
     Widget platformMapView;
     const Map<String, dynamic> creationParams = <String, dynamic>{};
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-      // platformMapView = AndroidView(
-      //   viewType: 'odrdMapView',
-      //   onPlatformViewCreated: _onPlatformViewCreated,
-      // );
-        platformMapView = PlatformViewLink(
-          viewType: 'odrdMapView',
-          surfaceFactory: (context, controller) {
-            return AndroidViewSurface(
-              controller: controller as AndroidViewController,
-              gestureRecognizers: const <
-                  Factory<OneSequenceGestureRecognizer>>{},
-              hitTestBehavior: PlatformViewHitTestBehavior.opaque,
-            );
-          },
-          onCreatePlatformView: (params) {
-            debugPrint('ddLogGoogleMap _ODRDTrackingWidgetState _getMapView: onCreatePlatformView ');
-            return PlatformViewsService.initSurfaceAndroidView(
-              id: params.id,
-              viewType: 'odrdMapView',
-              layoutDirection: TextDirection.ltr,
-              creationParams: creationParams,
-              creationParamsCodec: const StandardMessageCodec(),
-              onFocus: () {
-                params.onFocusChanged(true);
-              },
-            )
-              ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
-              ..addOnPlatformViewCreatedListener(_onPlatformViewCreated)
-              ..create();
-          },
+        platformMapView = AndroidView(
+          viewType: 'test_view',
+          onPlatformViewCreated: _onPlatformViewCreated,
         );
         break;
       case TargetPlatform.iOS:
@@ -89,7 +86,27 @@ class _SecondPageState extends State<SecondPage> {
     return platformMapView;
   }
 
+  Widget _getNativeView2() {
+    Widget platformMapView;
+    const Map<String, dynamic> creationParams = <String, dynamic>{};
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        platformMapView = AndroidView(
+          viewType: 'test_view_2',
+          onPlatformViewCreated: _onPlatformViewCreated,
+        );
+        break;
+      case TargetPlatform.iOS:
+        platformMapView = Container();
+        break;
+      default:
+        throw UnsupportedError('Unsupported Platform');
+    }
+    return platformMapView;
+  }
+
+
   void _onPlatformViewCreated(int id) {
-    debugPrint('ddLogGoogleMap Map view is created');
+    debugPrint('view is created');
   }
 }
